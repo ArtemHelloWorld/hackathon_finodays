@@ -5,6 +5,17 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 import accounts.views
 import banks.views
 
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title='openApi',
+        default_version='v1'
+    ),
+    public=True
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -32,4 +43,6 @@ urlpatterns = [
     path('open-banking/v1.3/bank/<int:bank_id>/accounts/', accounts.views.BankAccountsListAPIView.as_view(), name='bank-accounts-read'),
 
     path('api/v1/', include('users.urls')),
+
+    path('docs', schema_view.with_ui('swagger'))
 ]
