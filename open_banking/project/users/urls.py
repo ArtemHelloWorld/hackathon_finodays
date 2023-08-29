@@ -3,5 +3,5 @@ from django.urls import path
 import users.views
 
 urlpatterns = [
-    path('user/<int:user_id>/', users.views.UserRetrieveUpdateAPIView.as_view(), name='profile-read-update'),
+    path('user/register/', users.views.UserRegisterView.as_view(), name='user-create'),
 ]

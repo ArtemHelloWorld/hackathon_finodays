@@ -23,9 +23,11 @@ function SignUpPage() {
 
     signUpUser(event).then(response => {
       if (response === 200){
+        console.log(response.data)
         navigate('/login/');
       }
       else{
+        console.log(response)
         setformError(response['detail'])
         setUsernameError(response['username'])
         setPasswordError(response['password'])
