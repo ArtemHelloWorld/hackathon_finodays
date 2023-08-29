@@ -11,7 +11,7 @@ const MainPage = () => {
       <div className="d-flex flex-column h-100 p-0">
         <header className="black-light-bg text-white p-4 mx-4">
             <div className="d-flex justify-content-between align-items-center">
-                <h1 onClick={() => window.location.reload()}>Open Banking</h1>
+                <h1 onClick={() => window.location.reload()}>BankConnect</h1>
                 <div className="d-flex">
                     <input type="text" className="form-control me-2" placeholder="Search"></input>
                     <button className="btn btn-light" onClick={() => setActiveWindow('add-new-account')}>Add New Card</button>
