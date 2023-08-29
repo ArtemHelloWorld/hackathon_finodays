@@ -59,7 +59,7 @@ const NewAccount = () => {
           const transaction = db.transaction(['accounts'], 'readwrite');
           const objectStore = transaction.objectStore('accounts');
           objectStore.add(account);
-
+          window.location.reload()
       };
 
       request.onerror = (event) => {

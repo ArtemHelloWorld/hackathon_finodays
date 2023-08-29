@@ -21,7 +21,7 @@ urlpatterns = [
 
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-
+    path('api/v1/', include('users.urls')),
 
     # AccountConsents
     path('open-banking/v1.3/aisp/account-consents/', accounts.views.AccountsConsentsCreateAPIView.as_view(), name='account-consents-create'),
@@ -42,7 +42,8 @@ urlpatterns = [
     path('open-banking/v1.3/banks/', banks.views.BanksListAPIView.as_view(), name='banks-read'),
     path('open-banking/v1.3/bank/<int:bank_id>/accounts/', accounts.views.BankAccountsListAPIView.as_view(), name='bank-accounts-read'),
 
-    path('api/v1/', include('users.urls')),
+    # Transactions
+    path('open-banking/v1.3/asip/accounts/<int:account_id>/transactions/', accounts.views.TransactionsListAPIView.as_view(), name='transactions-accounts-read'),
 
     path('docs', schema_view.with_ui('swagger'))
 ]

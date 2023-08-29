@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AccountsList from "./AccountsList";
 import NewAccount from "./NewAccount";
+import Transactions from "./Transactions";
 
 
 const MainPage = () => {
@@ -14,7 +15,8 @@ const MainPage = () => {
                 <h1 onClick={() => window.location.reload()}>BankConnect</h1>
                 <div className="d-flex">
                     <input type="text" className="form-control me-2" placeholder="Search"></input>
-                    <button className="btn btn-light" onClick={() => setActiveWindow('add-new-account')}>Add New Card</button>
+                    <button className="btn btn-light mx-1" onClick={() => setActiveWindow('transactions')}>Transactions</button>
+                    <button className="btn btn-light mx-1" onClick={() => setActiveWindow('add-new-account')}>Add Account</button>
                 </div>
             </div>
         </header>
@@ -24,6 +26,9 @@ const MainPage = () => {
         }
         {
           activeWindow === 'add-new-account' && <NewAccount/>
+        }
+        {
+          activeWindow === 'transactions' && <Transactions/>
         }
 
       </div>

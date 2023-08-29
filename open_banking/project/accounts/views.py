@@ -1,12 +1,13 @@
 import random
 
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveDestroyAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.response import Response
 
-from .models import AccountsConsents, RetrievalGrant, Accounts, AccountsBalances
+from .models import AccountsConsents, RetrievalGrant, Accounts, AccountsBalances, Transactions
 from .serializers import AccountsConsentsSerializer, RetrievalGrantSerializer, AccountsBalancesSerializer, \
-    AccountsSerializer
+    AccountsSerializer, TransactionSerializer
 
 
 class AccountsConsentsCreateAPIView(CreateAPIView):
@@ -81,7 +82,20 @@ class BankAccountsListAPIView(ListAPIView):
     queryset = Accounts.objects.all()
     serializer_class = AccountsSerializer
     lookup_url_kwarg = 'bank_id'
+
     def get_queryset(self):
         user = self.request.user
         return Accounts.objects.filter(Owner=user, bank__id=self.kwargs['bank_id'])
 
+
+class TransactionsListAPIView(ListAPIView):
+    queryset = Transactions.objects.all()
+    serializer_class = TransactionSerializer
+    lookup_url_kwarg = 'account_id'
+
+    def get_queryset(self):
+        account = Accounts.objects.get(id=self.kwargs['account_id'])
+        items = Transactions.objects.filter(
+            (Q(sender_account=account) | Q(receiver_account=account))
+        )
+        return items
