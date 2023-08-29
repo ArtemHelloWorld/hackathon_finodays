@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import AccountsConsents, RetrievalGrant, AccountsBalances
+from .models import AccountsConsents, RetrievalGrant, AccountsBalances, Accounts
+
+
+class AccountsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Accounts
+        fields = '__all__'
 
 
 class AccountsConsentsSerializer(serializers.ModelSerializer):

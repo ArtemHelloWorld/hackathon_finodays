@@ -4,6 +4,7 @@ import django.urls
 
 class Banks(django.db.models.Model):
     name = django.db.models.CharField()
+    description = django.db.models.CharField(null=True)
 
     class Meta:
         verbose_name = 'банк'

@@ -1,27 +1,30 @@
 import django.db.models
 import django.urls
-from django.contrib.postgres.fields import ArrayField, JSONField
+from django.contrib.postgres.fields import ArrayField
 from django.core.validators import RegexValidator
 
-import users.models
 import banks.models
+import users.models
 
 
 class Accounts(django.db.models.Model):
-    user = django.db.models.ForeignKey(users.models.User, on_delete=django.db.models.CASCADE)
     bank = django.db.models.ForeignKey(banks.models.Banks, on_delete=django.db.models.CASCADE)
-    number = django.db.models.IntegerField()
-    balance = django.db.models.IntegerField(default=0)
-    date_created = django.db.models.DateField(auto_now_add=True, verbose_name='дата создания')
-    date_update = django.db.models.DateField(auto_now=True, verbose_name='дата изменения')
+    status = django.db.models.CharField(default='')
+    statusUpdateDateTime = django.db.models.DateField(auto_now_add=True, null=True)
+    currency = django.db.models.CharField(default='RUB')
+    accountType = django.db.models.CharField(default='Business')
+    accountDescription = django.db.models.CharField(default='Розничные операции')
+    AccountDetails = django.db.models.JSONField(default=dict)
+    Owner = django.db.models.ForeignKey(users.models.User, on_delete=django.db.models.CASCADE)
+    Servicer = django.db.models.JSONField(default=dict)
 
     class Meta:
         verbose_name = 'счет'
         verbose_name_plural = 'счета'
-        ordering = ['-date_created']
+        ordering = ['-statusUpdateDateTime']
 
     def __str__(self):
-        return self.number
+        return self.id
 
 
 class AccountsConsents(django.db.models.Model):

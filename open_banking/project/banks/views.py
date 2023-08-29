@@ -1,13 +1,11 @@
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import ListAPIView
 
 from .models import Banks
 from .serializers import BankSerializer
 
 
-class BankRetrieveAPIView(RetrieveAPIView):
+class BanksListAPIView(ListAPIView):
 
     queryset = Banks.objects.all()
-    lookup_url_kwarg = 'bank_id'
-    lookup_field = 'id'
     serializer_class = BankSerializer
 

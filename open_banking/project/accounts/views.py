@@ -5,7 +5,8 @@ from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveDestroyA
 from rest_framework.response import Response
 
 from .models import AccountsConsents, RetrievalGrant, Accounts, AccountsBalances
-from .serializers import AccountsConsentsSerializer, RetrievalGrantSerializer, AccountsBalancesSerializer
+from .serializers import AccountsConsentsSerializer, RetrievalGrantSerializer, AccountsBalancesSerializer, \
+    AccountsSerializer
 
 
 class AccountsConsentsCreateAPIView(CreateAPIView):
@@ -19,7 +20,7 @@ class AccountsConsentsCreateAPIView(CreateAPIView):
             serializer = self.get_serializer(data=data)
 
             if serializer.is_valid():
-                instance = serializer.save()  # Save the object and get the instance
+                instance = serializer.save()
 
                 RetrievalGrant.objects.create(
                     consent=instance,
@@ -74,3 +75,13 @@ class AccountsBalancesRetrieveAPIView(RetrieveAPIView):
 class BalancesListAPIView(ListAPIView):
     queryset = AccountsBalances.objects.all()
     serializer_class = AccountsBalancesSerializer
+
+
+class BankAccountsListAPIView(ListAPIView):
+    queryset = Accounts.objects.all()
+    serializer_class = AccountsSerializer
+    lookup_url_kwarg = 'bank_id'
+    def get_queryset(self):
+        user = self.request.user
+        return Accounts.objects.filter(Owner=user, bank__id=self.kwargs['bank_id'])
+
